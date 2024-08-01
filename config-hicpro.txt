@@ -39,7 +39,7 @@ PAIR2_EXT = _R2
 
 MIN_MAPQ = 10
 
-BOWTIE2_IDX_PATH = 
+BOWTIE2_IDX_PATH = /file/references/bowtie2_idx
 BOWTIE2_GLOBAL_OPTIONS = --very-sensitive -L 30 --score-min L,-0.6,-0.2 --end-to-end --reorder
 BOWTIE2_LOCAL_OPTIONS =  --very-sensitive -L 20 --score-min L,-0.6,-0.2 --end-to-end --reorder
 
@@ -47,8 +47,8 @@ BOWTIE2_LOCAL_OPTIONS =  --very-sensitive -L 20 --score-min L,-0.6,-0.2 --end-to
 ## Annotation files
 #######################################################################
 
-REFERENCE_GENOME = hg19
-GENOME_SIZE = chrom_hg19.sizes
+REFERENCE_GENOME =hg38
+GENOME_SIZE = /file/references/hg38.chrom.sizes
 
 #######################################################################
 ## Allele specific analysis
