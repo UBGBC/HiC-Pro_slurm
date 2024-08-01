@@ -99,10 +99,10 @@ EOF
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
 EOF
-    elif[$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
+    elif [$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
 	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
 	exit(1)
-    else; then
+    else
     	echo """
      Please make sure you are using one of the following combinations to run sbatch jobs:
      1. CLUSTER = faculty QOS = gbc JOB_QUEUE = gbc and ACCT is not empty
