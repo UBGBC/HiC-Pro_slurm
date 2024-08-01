@@ -22,6 +22,9 @@ JOB_MEM =
 JOB_WALLTIME = 
 JOB_QUEUE = 
 JOB_MAIL = 
+CLUSTER = 
+ACCT =
+QOS =
 
 #########################################################################
 ## Data
