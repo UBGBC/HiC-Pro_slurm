@@ -8,7 +8,7 @@
    ```
 2. Pull the image from docker and convert to singularity image:
 
-   `singularity pull hicpro.sif docker://ubgbc/hicpro_slurm:latest`
+   `singularity pull hicpro.sif docker://ubgbc/hicpro_slurm:3.1.0`
    
    Make sure when pulling the image you are in the Overall_dir directory
 4. Make all the paths and folders accessible once inside the container
