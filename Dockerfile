@@ -31,7 +31,7 @@ ENV PATH /usr/local/anaconda/envs/HiC-Pro_v3.1.0/bin:$PATH
 
 ## Install HiCPro
 RUN cd /tmp && \
-    echo "master.zip" | wget --base=http://github.com/nservant/HiC-Pro/archive/ -i - -O hicpro_latest.zip && \
+    echo "master.zip" | wget https://github.com/UBGBC/HiC-Pro_slurm/archive/refs/tags/v3.1.0.zip -O hicpro_latest.zip && \
     unzip hicpro_latest.zip && \
     cd HiC-Pro-master  && \ 
     make configure prefix=/ && \
