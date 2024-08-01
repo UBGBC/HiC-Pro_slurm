@@ -11,6 +11,9 @@ RUN apt-get update \
   unzip \
   bzip2 \
   gcc \
+  nano \
+  make \
+  vi \
   g++ && apt-get clean
 
 
