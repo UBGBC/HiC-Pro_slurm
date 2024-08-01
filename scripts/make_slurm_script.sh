@@ -67,8 +67,9 @@ then
  
     ## step 1 - parallel
     torque_script=HiCPro_step1_${JOB_NAME}.sh
- 
-    cat > ${torque_script} <<EOF
+
+    if [$CLUSTER == "faculty" -a $QOS == "gbc" -a $ACCT != "" -a $JOB_QUEUE == "gbc"]; then
+	cat > ${torque_script} <<EOF
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -M ${CLUSTER}
@@ -83,11 +84,37 @@ then
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
 EOF
+    elif [$CLUSTER == "ub-hpc" -a $QOS == "general-compute" -a $JOB_QUEUE == "general-compute"]; then
+    	cat > ${torque_script} <<EOF
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -M ${CLUSTER}
+#SBATCH -q ${QOS}
+#SBATCH -n ${N_CPU}
+#SBATCH -t ${JOB_WALLTIME}
+#SBATCH --mem-per-cpu=${JOB_MEM}
+#SBATCH -p ${JOB_QUEUE}
+#SBATCH --mail-user=${JOB_MAIL}
+#SBATCH --mail-type=end
+#SBATCH --job-name=HiCpro_s1_${JOB_NAME}
+#SBATCH --export=ALL
+EOF
+    elif[$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
+	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
+	exit(1)
+    else; then
+    	echo """
+     Please make sure you are using one of the following combinations to run sbatch jobs:
+     1. CLUSTER = faculty QOS = gbc JOB_QUEUE = gbc and ACCT is not empty
+     2. CLUSTER = ub-hpc QOS = general-compute and JOB_QUEUE = general-compute
+     """
+     	exit(1)
+    fi
     
     if [[ $count -gt 1 ]]; then
 	echo -e "#SBATCH --array=1-$count" >> ${torque_script}
     fi
-    cat >> ${torque_script} <<EOF
+    cat > ${torque_script} <<EOF
 FASTQFILE=\$SLURM_SUBMIT_DIR/$inputfile; export FASTQFILE
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt $make_target 2>&1
 EOF
@@ -113,22 +140,49 @@ then
     fi
 
     torque_script_s2=HiCPro_step2_${JOB_NAME}.sh
-    cat > ${torque_script_s2} <<EOF
+    if [$CLUSTER == "faculty" -a $QOS == "gbc" -a $ACCT != "" -a $JOB_QUEUE == "gbc"]; then
+	cat > ${torque_script_s2} <<EOF
 #!/bin/bash
-
 #SBATCH -N 1
-#SBATCH -n 1
 #SBATCH -M ${CLUSTER}
 #SBATCH -q ${QOS}
 #SBATCH -A ${ACCT}
+#SBATCH -n ${N_CPU}
 #SBATCH -t ${JOB_WALLTIME}
 #SBATCH --mem-per-cpu=${JOB_MEM}
 #SBATCH -p ${JOB_QUEUE}
 #SBATCH --mail-user=${JOB_MAIL}
 #SBATCH --mail-type=end
-#SBATCH --job-name=HiCpro_s2_${JOB_NAME}
+#SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
-
+EOF
+    elif [$CLUSTER == "ub-hpc" -a $QOS == "general-compute" -a $JOB_QUEUE == "general-compute"]; then
+    	cat > ${torque_script_s2} <<EOF
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -M ${CLUSTER}
+#SBATCH -q ${QOS}
+#SBATCH -n ${N_CPU}
+#SBATCH -t ${JOB_WALLTIME}
+#SBATCH --mem-per-cpu=${JOB_MEM}
+#SBATCH -p ${JOB_QUEUE}
+#SBATCH --mail-user=${JOB_MAIL}
+#SBATCH --mail-type=end
+#SBATCH --job-name=HiCpro_s1_${JOB_NAME}
+#SBATCH --export=ALL
+EOF
+    elif[$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
+	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
+	exit(1)
+    else; then
+    	echo """
+     Please make sure you are using one of the following combinations to run sbatch jobs:
+     1. CLUSTER = faculty QOS = gbc JOB_QUEUE = gbc and ACCT is not empty
+     2. CLUSTER = ub-hpc QOS = general-compute and JOB_QUEUE = general-compute
+     """
+     	exit(1)
+    fi
+    cat > ${torque_script_s2} <<EOF
 cd \$SLURM_SUBMIT_DIR
 
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt $make_target 2>&1
