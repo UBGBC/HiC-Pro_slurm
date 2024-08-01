@@ -71,11 +71,13 @@ then
     cat > ${torque_script} <<EOF
 #!/bin/bash
 #SBATCH -N 1
+#SBATCH -M ${CLUSTER}
+#SBATCH -q ${QOS}
+#SBATCH -A ${ACCT}
 #SBATCH -n ${N_CPU}
 #SBATCH -t ${JOB_WALLTIME}
 #SBATCH --mem-per-cpu=${JOB_MEM}
 #SBATCH -p ${JOB_QUEUE}
-
 #SBATCH --mail-user=${JOB_MAIL}
 #SBATCH --mail-type=end
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
@@ -116,10 +118,12 @@ then
 
 #SBATCH -N 1
 #SBATCH -n 1
+#SBATCH -M ${CLUSTER}
+#SBATCH -q ${QOS}
+#SBATCH -A ${ACCT}
 #SBATCH -t ${JOB_WALLTIME}
 #SBATCH --mem-per-cpu=${JOB_MEM}
 #SBATCH -p ${JOB_QUEUE}
-
 #SBATCH --mail-user=${JOB_MAIL}
 #SBATCH --mail-type=end
 #SBATCH --job-name=HiCpro_s2_${JOB_NAME}
