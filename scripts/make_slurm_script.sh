@@ -101,14 +101,14 @@ EOF
 EOF
     elif [$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
 	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
-	exit(1)
+	exit 1
     else
     	echo """
      Please make sure you are using one of the following combinations to run sbatch jobs:
      1. CLUSTER = faculty QOS = gbc JOB_QUEUE = gbc and ACCT is not empty
      2. CLUSTER = ub-hpc QOS = general-compute and JOB_QUEUE = general-compute
      """
-     	exit(1)
+     	exit 1
     fi
     
     if [[ $count -gt 1 ]]; then
@@ -173,14 +173,14 @@ EOF
 EOF
     elif [$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
 	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
-	exit(1)
+	exit 1
     else
     	echo """
      Please make sure you are using one of the following combinations to run sbatch jobs:
      1. CLUSTER = faculty QOS = gbc JOB_QUEUE = gbc and ACCT is not empty
      2. CLUSTER = ub-hpc QOS = general-compute and JOB_QUEUE = general-compute
      """
-     	exit(1)
+     	exit 1
     fi
     cat > ${torque_script_s2} <<EOF
 cd \$SLURM_SUBMIT_DIR
