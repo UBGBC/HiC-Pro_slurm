@@ -68,7 +68,7 @@ then
     ## step 1 - parallel
     torque_script=HiCPro_step1_${JOB_NAME}.sh
 
-    if [$CLUSTER == "faculty" -a $QOS == "gbc" -a $ACCT != "" -a $JOB_QUEUE == "gbc"]; then
+    if [${CLUSTER} == "faculty" -a ${QOS} == "gbc" -a ${ACCT} == "gbcstaff" -a ${JOB_QUEUE} == "gbc"]; then
 	cat > ${torque_script} <<EOF
 #!/bin/bash
 #SBATCH -N 1
@@ -84,7 +84,7 @@ then
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
 EOF
-    elif [$CLUSTER == "ub-hpc" -a $QOS == "general-compute" -a $JOB_QUEUE == "general-compute"]; then
+    elif [${CLUSTER} == "ub-hpc" -a ${QOS} == "general-compute" -a ${JOB_QUEUE} == "general-compute"]; then
     	cat > ${torque_script} <<EOF
 #!/bin/bash
 #SBATCH -N 1
@@ -99,7 +99,7 @@ EOF
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
 EOF
-    elif [$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
+    elif [${ACCT} != "gbcstaff" -a ${JOB_QUEUE} == "gbc"]; then
 	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
 	exit 1
     else
@@ -140,7 +140,7 @@ then
     fi
 
     torque_script_s2=HiCPro_step2_${JOB_NAME}.sh
-    if [$CLUSTER == "faculty" -a $QOS == "gbc" -a $ACCT != "" -a $JOB_QUEUE == "gbc"]; then
+    if [${CLUSTER} == "faculty" -a ${QOS} == "gbc" -a ${ACCT} == "gbcstaff" -a ${JOB_QUEUE} == "gbc"]; then
 	cat > ${torque_script_s2} <<EOF
 #!/bin/bash
 #SBATCH -N 1
@@ -156,7 +156,7 @@ then
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
 EOF
-    elif [$CLUSTER == "ub-hpc" -a $QOS == "general-compute" -a $JOB_QUEUE == "general-compute"]; then
+    elif [${CLUSTER} == "ub-hpc" -a ${QOS} == "general-compute" -a ${JOB_QUEUE} == "general-compute"]; then
     	cat > ${torque_script_s2} <<EOF
 #!/bin/bash
 #SBATCH -N 1
@@ -171,7 +171,7 @@ EOF
 #SBATCH --job-name=HiCpro_s1_${JOB_NAME}
 #SBATCH --export=ALL
 EOF
-    elif [$ACCT == "" -a $JOB_QUEUE == "gbc"]; then
+    elif [${ACCT} != "gbcstaff" -a ${JOB_QUEUE} == "gbc"]; then
 	echo "Please make sure to include 'ACCT = gbcstaff' in the hicpro-config.txt file"
 	exit 1
     else
